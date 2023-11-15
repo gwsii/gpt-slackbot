@@ -28,7 +28,8 @@ app = App(
     signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
 )
 
-def respond_in_thread(ack, say, event):
+def respond_in_thread(ack, say, event, bot_id):
+    print(bot_id)
     print(event)
     ack()
     # sleep(10)
