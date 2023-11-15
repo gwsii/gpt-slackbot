@@ -1,31 +1,63 @@
 import os
-from flask import Flask, request
-from flask_json import FlaskJSON, JsonError, json_response, as_json
+from slack_bolt import App
 
-app = Flask(__name__)
-FlaskJSON(app)
-
-
-@app.route('/')
-def hello():
-    return 'Hello World!'
+app = App(
+    token=os.environ.get("SLACK_BOT_TOKEN"),
+    signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
+)
 
 
-@app.route('/get_time')
-def get_time():
-    return json_response(time='now')
+@app.event("app_home_opened")
+def update_home_tab(client, event, logger):
+  try:
+    # views.publish is the method that your app uses to push a view to the Home tab
+    client.views_publish(
+      # the user that opened your app's app home
+      user_id=event["user"],
+      # the view object that appears in the app home
+      view={
+        "type": "home",
+        "callback_id": "home_view",
 
-@app.route('/slack/event', methods=['POST'])
-def slack_event():
-    print(request.json['event'])
-    return "OK"
+        # body of the view
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Welcome to your _App's Home_* :tada:"
+            }
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "This button won't do much for now but you can set up a listener for it using the `actions()` method and passing its unique `action_id`. See an example in the `examples` folder within your Bolt app."
+            }
+          },
+          {
+            "type": "actions",
+            "elements": [
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": "Click me!"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    )
 
-@app.route('/get_value')
-@as_json
-def get_value():
-    return dict(value=42)
+  except Exception as e:
+    logger.error(f"Error publishing home tab: {e}")
 
-if __name__ == '__main__':
-    # Bind to PORT if defined, otherwise default to 5000.
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+
+# Start your app
+if __name__ == "__main__":
+    app.start(port=int(os.environ.get("PORT", 5000)))
