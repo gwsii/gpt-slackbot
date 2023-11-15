@@ -10,7 +10,7 @@ app = App(
 def handle_direct_message_events(ack, say, event, respond):
     print(event)
     ack()
-    respond(f"Thanks for your message: {event['text']}")
+    say(f"Thanks for your message: {event['text']}")
 
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger):
