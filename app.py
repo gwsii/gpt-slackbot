@@ -15,7 +15,7 @@ def handle_direct_message_events(ack, say, event, respond):
     if 'thread_ts' in event:
         say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
     else:
-        say(f"Thanks for your message: {event['text']}")
+        say(f"Thanks for your message: {event['text']}", thread_ts=event['ts'])
 
 @app.event("app_mention")
 def handle_app_mentions(ack, say, event, respond):
@@ -25,7 +25,8 @@ def handle_app_mentions(ack, say, event, respond):
     if 'thread_ts' in event:
         say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
     else:
-        say(f"Thanks for your message: {event['text']}")
+        say(f"Thanks for your message: {event['text']}", thread_ts=event['ts'])
+        # say(f"Thanks for your message: {event['text']}")
 
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger, ack):
