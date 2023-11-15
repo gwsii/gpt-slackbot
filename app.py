@@ -8,14 +8,17 @@ app = App(
 )
 
 @app.event("message")
-def handle_direct_message_events(ack, say, event, respond):
+def handle_direct_message_events(ack, say, event, respond, client):
     print(event)
     ack()
     # sleep(10)
     if 'thread_ts' in event:
         say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
+        print(client.converations_history(channel=event['thread_ts']))
     else:
         say(f"Thanks for your message: {event['text']}", thread_ts=event['ts'])
+        print(client.converations_history(channel=event['ts']))
+
     # respond(f"Thanks for your message: {event['text']}")
 
 @app.event("app_mention")
