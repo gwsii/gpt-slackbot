@@ -15,7 +15,7 @@ def handle_direct_message_events(ack, say, event, respond):
 def handle_app_mentions(ack, say, event, respond):
     print(event)
     ack()
-    if event['thread_ts']:
+    if event['thread_ts'] is not None:
       ack(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
     ack(f"Thanks for your message: {event['text']}")
 
