@@ -13,7 +13,18 @@ def respond_in_thread(ack, say, event):
     # sleep(10)
     ts = event['thread_ts'] if 'thread_ts' in event else event['ts']
     say(f"Thanks for your message: {event['text']}", thread_ts=ts)
-    print(app.client.conversations_replies(channel=event['channel'], ts=ts))
+    # print(app.client.conversations_replies(channel=event['channel'], ts=ts))
+    messages = []
+    while True:
+        messagesPage = app.client.conversations_replies(channel=event['channel'], ts=ts)
+        messages += messagesPage['messages']
+        if not messagesPage['has_more']:
+            break
+
+    for message in messages:
+        print(message.text)
+
+
 
 @app.event("message")
 def handle_direct_message_events(ack, say, event):
