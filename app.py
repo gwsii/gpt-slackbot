@@ -28,8 +28,8 @@ app = App(
     signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
 )
 
-def respond_in_thread(ack, say, event, bot_id):
-    print(bot_id)
+def respond_in_thread(ack, say, event, bot_user_id):
+    print(bot_user_id)
     print(event)
     ack()
     # sleep(10)
@@ -52,12 +52,12 @@ def respond_in_thread(ack, say, event, bot_id):
 
 
 @app.event("message")
-def handle_direct_message_events(ack, say, event):
-    respond_in_thread(ack, say, event)
+def handle_direct_message_events(ack, say, event, bot_user_id):
+    respond_in_thread(ack, say, event, bot_user_id)
 
 @app.event("app_mention")
-def handle_app_mentions(ack, say, event, respond):
-    respond_in_thread(ack, say, event)
+def handle_app_mentions(ack, say, event, bot_user_id):
+    respond_in_thread(ack, say, event, bot_user_id)
 
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger, ack):
