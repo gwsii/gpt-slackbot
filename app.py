@@ -6,6 +6,11 @@ app = App(
     signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
 )
 
+@app.event("message.im")
+def handle_direct_message_events(ack, say, event, logger):
+    logger.info(event)
+    ack()
+    say(f"Thanks for your message: {event['text']}")
 
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger):
