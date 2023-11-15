@@ -47,7 +47,7 @@ def respond_in_thread(ack, say, event, bot_user_id):
         if not 'text' in message:
             continue
         if message['user'] == bot_user_id:
-            openaiMessages.append({"assistant": "system", "content": message['text']})
+            openaiMessages.append({"role": "assistant", "content": message['text']})
         else:
             openaiMessages.append({"role": "user", "content": message['text']})
 
