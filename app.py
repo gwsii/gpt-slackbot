@@ -17,15 +17,15 @@ def respond_in_thread(ack, say, event):
     messages = []
     while True:
         messagesPage = app.client.conversations_replies(channel=event['channel'], ts=ts)
-        print(messagesPage)
+        # print(messagesPage)
         messages += messagesPage['messages']
         if not messagesPage['has_more']:
             break
         ts = messagesPage['messages'][-1]['ts']
 
     for message in messages:
-        print(message)
-        print(message.text)
+        # print(message)
+        print(message['text'])
 
 
 
