@@ -14,7 +14,7 @@ def handle_direct_message_events(ack, say, event, respond):
 @app.event("app_mention")
 def handle_app_mentions(ack, say, event, respond):
     print(event)
-    ack()
+    # ack()
     if 'thread_ts' in event:
       ack(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
     ack(f"Thanks for your message: {event['text']}")
