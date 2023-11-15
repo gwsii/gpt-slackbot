@@ -1,4 +1,5 @@
 import os
+from time import sleep
 from slack_bolt import App
 
 app = App(
@@ -10,6 +11,7 @@ app = App(
 def handle_direct_message_events(ack, say, event, respond):
     print(event)
     ack()
+    sleep(10)
     if 'thread_ts' in event:
         say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
     else:
@@ -19,6 +21,7 @@ def handle_direct_message_events(ack, say, event, respond):
 def handle_app_mentions(ack, say, event, respond):
     print(event)
     ack()
+    sleep(10)
     if 'thread_ts' in event:
         say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
     else:
