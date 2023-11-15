@@ -15,12 +15,9 @@ def hello():
 def get_time():
     return json_response(time='now')
 
-@app.route('/increment', methods=['POST'])
-def increment():
-    data = request.get_json(force=True)
-    if 'number' not in data:
-        raise JsonError(description='Invalid input', code=400)
-    return json_response(result=data['number'] + 1)
+@app.route('/slack/event', methods=['POST'])
+def slack_event():
+    return json_response(value='OK')
 
 @app.route('/get_value')
 @as_json
