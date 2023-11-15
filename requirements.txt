@@ -1,1 +1,2 @@
-Flask
+Flask==2.2.2
+Flask-JSON==0.4.0
