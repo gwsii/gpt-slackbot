@@ -6,7 +6,7 @@ app = App(
     signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
 )
 
-@app.event("message.im")
+@app.event("message")
 def handle_direct_message_events(ack, say, event, logger):
     logger.info(event)
     ack()
