@@ -3,25 +3,18 @@ from time import sleep
 from slack_bolt import App
 from openai import OpenAI
 
-client = OpenAI(
+openaiClient = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
     # api_key="My API Key",
 )
 
 def complete_chat(messages):
-
-
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": "Say this is a test",
-            }
-        ],
+    chat_completion = openaiClient.chat.completions.create(
+        messages=messages,
         model="gpt-3.5-turbo",
     )
 
-    return chat_completion
+    return chat_completion.choices[0].message.content
 
 app = App(
     token=os.environ.get("SLACK_BOT_TOKEN"),
@@ -34,7 +27,6 @@ def respond_in_thread(ack, say, event, bot_user_id):
     ack()
     # sleep(10)
     ts = event['thread_ts'] if 'thread_ts' in event else event['ts']
-    say(f"Thanks for your message: {event['text']}", thread_ts=ts)
     # print(app.client.conversations_replies(channel=event['channel'], ts=ts))
     messages = []
     while True:
@@ -45,10 +37,25 @@ def respond_in_thread(ack, say, event, bot_user_id):
             break
         ts = messagesPage['messages'][-1]['ts']
 
+    openaiMessages = [
+        {"role": "system", "content": "You are a helpful assistant."}
+    ]
+
     for message in messages:
         # print(message)
         print(f"{message['user']}: {message['text']}")
+        if not 'text' in message:
+            continue
+        if message['user'] == bot_user_id:
+            openaiMessages.append({"assistant": "system", "content": message['text']})
+        else:
+            openaiMessages.append({"role": "user", "content": message['text']})
 
+    print(openaiMessages)
+
+    ai_response = complete_chat(openaiMessages)
+
+    say(ai_response, thread_ts=ts)
 
 
 @app.event("message")
