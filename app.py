@@ -11,12 +11,9 @@ def respond_in_thread(ack, say, event):
     print(event)
     ack()
     # sleep(10)
-    if 'thread_ts' in event:
-        say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
-        print(app.client.conversations_replies(channel=event['thread_ts']))
-    else:
-        say(f"Thanks for your message: {event['text']}", thread_ts=event['ts'])
-        print(app.client.conversations_replies(channel=event['ts']))
+    ts = event['thread_ts'] if 'thread_ts' in event else event['ts']
+    say(f"Thanks for your message: {event['text']}", thread_ts=ts)
+    print(app.client.conversations_replies(ts=ts))
 
 @app.event("message")
 def handle_direct_message_events(ack, say, event):
