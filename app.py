@@ -9,6 +9,7 @@ app = App(
 
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger):
+  print(event)
   try:
     # views.publish is the method that your app uses to push a view to the Home tab
     client.views_publish(
