@@ -12,17 +12,17 @@ def handle_direct_message_events(ack, say, event, respond):
     print(event)
     ack()
     # sleep(10)
-    # if 'thread_ts' in event:
-    #     say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
-    # else:
-    #     say(f"Thanks for your message: {event['text']}", thread_ts=event['ts'])
-    respond(f"Thanks for your message: {event['text']}")
+    if 'thread_ts' in event:
+        say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
+    else:
+        say(f"Thanks for your message: {event['text']}", thread_ts=event['ts'])
+    # respond(f"Thanks for your message: {event['text']}")
 
 @app.event("app_mention")
 def handle_app_mentions(ack, say, event, respond):
     print(event)
     ack()
-    sleep(10)
+    # sleep(10)
     if 'thread_ts' in event:
         say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
     else:
