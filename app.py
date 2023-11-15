@@ -12,8 +12,15 @@ def handle_direct_message_events(ack, say, event, respond):
     ack()
     say(f"Thanks for your message: {event['text']}")
 
+@app.event("app_mention")
+def handle_app_mentions(ack, say, event, respond):
+    print(event)
+    ack()
+    say(f"Thanks for your message: {event['text']}")
+
 @app.event("app_home_opened")
-def update_home_tab(client, event, logger):
+def update_home_tab(client, event, logger, ack):
+  ack()
   print(event)
   try:
     # views.publish is the method that your app uses to push a view to the Home tab
