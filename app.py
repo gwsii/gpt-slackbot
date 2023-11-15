@@ -8,7 +8,7 @@ app = App(
 
 @app.event("message")
 def handle_direct_message_events(ack, say, event, logger):
-    logger.info(event)
+    print(event)
     ack()
     say(f"Thanks for your message: {event['text']}")
 
