@@ -18,7 +18,7 @@ def get_time():
 @app.route('/slack/event', methods=['POST'])
 def slack_event():
     print(request.json['event'])
-    return json_response("OK")
+    return "OK"
 
 @app.route('/get_value')
 @as_json
