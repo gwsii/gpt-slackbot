@@ -1,6 +1,27 @@
 import os
 from time import sleep
 from slack_bolt import App
+from openai import OpenAI
+
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    # api_key="My API Key",
+)
+
+def complete_chat(messages):
+
+
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": "Say this is a test",
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
+
+    return chat_completion
 
 app = App(
     token=os.environ.get("SLACK_BOT_TOKEN"),
@@ -25,7 +46,7 @@ def respond_in_thread(ack, say, event):
 
     for message in messages:
         # print(message)
-        print(message['text'])
+        print(f"{message['user']}: {message['text']}")
 
 
 
