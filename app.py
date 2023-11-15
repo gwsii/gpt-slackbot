@@ -16,8 +16,9 @@ def handle_app_mentions(ack, say, event, respond):
     print(event)
     ack()
     if 'thread_ts' in event:
-      say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
-    say(f"Thanks for your message: {event['text']}")
+        say(f"Thanks for your message: {event['text']}", thread_ts=event['thread_ts'])
+    else:
+        say(f"Thanks for your message: {event['text']}")
 
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger, ack):
